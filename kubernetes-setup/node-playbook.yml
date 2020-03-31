@@ -90,15 +90,18 @@
       line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
       create: yes
 
+
   - name: Restart kubelet
     service:
       name: kubelet
       daemon_reload: yes
       state: restarted
 
+  - name: Pulled required images
+    command: kubeadm config images pull --config=/vagrant/kubeadm.yaml
 
   - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init --config=/vagrant/kubeadm.yaml --nodename=k8s-master
+    command: kubeadm init --config=/vagrant/kubeadm.yaml --node-name k8s-master
     #command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
 
 

@@ -94,8 +94,13 @@
       daemon_reload: yes
       state: restarted
 
+
+  - name: Pulled required images
+    command: kubeadm config images pull --config=/vagrant/kubeadm.yaml
+
+
   - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init --config=/vagrant/kubeadm.yaml
+    command: kubeadm init --config=/vagrant/kubeadm.yaml --node-name k8s-master
     #command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
 
   - name: Setup kubeconfig for vagrant user
@@ -108,7 +113,8 @@
 
   - name: Install calico pod network
     become: false
-    command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+    command: kubectl apply -f https://docs.projectcalico.org/v3.9/manifests/calico.yaml
+#    command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
 
   - name: Generate join command
     command: kubeadm token create --print-join-command
