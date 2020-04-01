@@ -1,0 +1,21 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 192.168.50.10
+nodeRegistration:
+  kubeletExtraArgs:
+    pod-infra-container-image: registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.2
+apiServer:
+  extraArgs:
+    advertise-address: 192.168.50.10
+apiServerCertSANs:
+  - 192.168.50.10
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+clusterName: kubernetes
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+kubernetesVersion: v1.18.0
+networking:
+  podSubnet: 192.168.0.0/16
+  serviceSubnet: 192.168.0.0/16
