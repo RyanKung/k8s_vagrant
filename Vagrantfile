@@ -13,6 +13,17 @@ Vagrant.configure("2") do |config|
         v.memory = 1024
         v.cpus = 2
     end
+    # cache docker images
+    config.vm.synced_folder ".", "/vagrant"
+
+    # vagrant network issue
+    # https://github.com/hashicorp/vagrant/issues/1807
+    # https://superuser.com/questions/850357/how-to-fix-extremely-slow-virtualbox-network-download-speed/850389#850389
+    config.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      v.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    end
 
     config.vm.define "k8s-master" do |master|
         master.vm.box = IMAGE_NAME
