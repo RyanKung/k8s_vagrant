@@ -44,6 +44,13 @@ Vagrant.configure("2") do |config|
                 node_ip: "192.168.50.10",
             }
         end
+
+        master.vm.provision "shell" do |s|
+          s.inline = <<-SHELL
+                 kubeadm token create --print-join-command > /vagrant/join-command.sh
+          SHELL
+          s.privileged = true
+        end
     end
 
     (1..N).each do |i|
