@@ -8,7 +8,6 @@ Vagrant.configure("2") do |config|
     # ISSUE: https://stackoverflow.com/questions/54067192/vagrant-config-vm-provision-does-not-allow-me-to-copy-a-file-to-etc-nginx-conf
     # ISSUE: https://github.com/hashicorp/vagrant/issues/4032
 
-    config.vm.provision  "file", source: "./sources_list", destination: "/tmp/sources.list"
     config.vm.provider "virtualbox" do |v|
         v.memory = 1024
         v.cpus = 2
@@ -28,10 +27,19 @@ Vagrant.configure("2") do |config|
     config.vm.define "k8s-master" do |master|
         master.vm.box = IMAGE_NAME
         master.vm.network "private_network", ip: "192.168.50.10"
+        master.vm.network "forwarded_port", guest: 8000, host: 8000
+        master.vm.network "forwarded_port", guest: 8080, host: 8080
+        master.vm.network "forwarded_port", guest: 8001, host: 8001
+        master.vm.network "forwarded_port", guest: 443, host: 443
+        master.vm.network "forwarded_port", guest: 5000, host: 5000
+        master.vm.network "forwarded_port", guest: 8443, host: 8443
+
+
+
         master.vm.hostname = "k8s-master"
         master.vm.provision "shell" do |s|
           s.inline = <<-SHELL
-                 cp /tmp/sources.list /etc/apt/sources.list
+                 cp -f /vagrant/sources_list /etc/apt/sources.list
                  apt-get update
                  apt-get -y upgrade
          SHELL
@@ -48,6 +56,11 @@ Vagrant.configure("2") do |config|
         master.vm.provision "shell" do |s|
           s.inline = <<-SHELL
                  kubeadm token create --print-join-command > /vagrant/join-command.sh
+                 docker run -d -p 5000:5000 --restart=always --name registry registry:2
+                 mkdir -p /etc/docker
+                 cp -f /vagrant/docker-daemon.json /etc/docker/daemon.json
+                 service docker restart
+                 systemctl daemon-reload
           SHELL
           s.privileged = true
         end
@@ -60,7 +73,7 @@ Vagrant.configure("2") do |config|
             node.vm.hostname = "node-#{i}"
             node.vm.provision "shell" do |s|
              s.inline = <<-SHELL
-                 cp /tmp/sources.list /etc/apt/sources.list
+                 cp -f /vagrant/sources_list /etc/apt/sources.list
                  apt-get update
                  apt-get -y upgrade
              SHELL
@@ -72,6 +85,15 @@ Vagrant.configure("2") do |config|
                 ansible.extra_vars = {
                     node_ip: "192.168.50.#{i + 10}",
                 }
+            end
+            node.vm.provision "shell" do |s|
+              s.inline = <<-SHELL
+                 mkdir -p /etc/docker
+                 cp -f /vagrant/docker-daemon.json /etc/docker/daemon.json
+                 service docker restart
+                 systemctl daemon-reload
+              SHELL
+              s.privileged = true
             end
         end
     end
