@@ -1,0 +1,56 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-consul-pv0
+  labels:
+    type: local
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: default
+    name: data-default-consul-consul-server-0
+  hostPath:
+    path: "/vagrant/data/pv0"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-consul-pv1
+  labels:
+    type: local
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: default
+    name: data-default-consul-consul-server-0
+  hostPath:
+    path: "/vagrant/data/pv1"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-consul-pv2
+  labels:
+    type: local
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  claimRef:
+    namespace: default
+    name: data-default-consul-consul-server-0
+  hostPath:
+    path: "/vagrant/data/pv2"
