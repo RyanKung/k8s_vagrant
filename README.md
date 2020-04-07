@@ -1,3 +1,16 @@
+## TL;DR
+
+This repo is followed k8s guide of:
+
+https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+
+But optimized alot for Chinese network envirement. The vagrant/ansible will do three thinges:
+
+1. Setup a k8s cluster with 1 master and 2 slaves.
+2. Setup a private docker image on k8s master.
+
+We also provide some config sample for other services such as `consul`.
+
 ## Simple build
 
 '''
