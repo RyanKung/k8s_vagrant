@@ -13,9 +13,9 @@ We also provide some config sample for other services such as `consul`.
 
 ## Simple build
 
-'''
+```
 vagrant up
-'''
+```
 
 ## Depoly a services
 
