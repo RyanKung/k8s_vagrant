@@ -1,0 +1,14 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: consul-services
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /consul
+        backend:
+          serviceName: consul-consul-server
+          servicePort: 8500

@@ -19,3 +19,9 @@ kubernetesVersion: v1.18.0
 networking:
   podSubnet: 192.168.50.0/24
   serviceSubnet: 192.168.50.0/24
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: "ipvs"
+ipvs:
+  strictARP: true

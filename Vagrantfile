@@ -27,14 +27,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "k8s-master" do |master|
         master.vm.box = IMAGE_NAME
         master.vm.network "private_network", ip: "192.168.50.10"
-        master.vm.network "forwarded_port", guest: 8000, host: 8000
-        master.vm.network "forwarded_port", guest: 8080, host: 8080
-        master.vm.network "forwarded_port", guest: 8001, host: 8001
-        master.vm.network "forwarded_port", guest: 443, host: 443
-        master.vm.network "forwarded_port", guest: 5000, host: 5000
-        master.vm.network "forwarded_port", guest: 8443, host: 8443
-        master.vm.network "forwarded_port", guest: 18500, host: 18500
-
         master.vm.hostname = "k8s-master"
         master.vm.provision "shell" do |s|
           s.inline = <<-SHELL
