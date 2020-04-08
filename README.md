@@ -4,7 +4,7 @@ This repo is followed k8s guide of:
 
 https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
 
- Optimization has been made under the circumstances of Chinese network. The vagrant/ansible will do three things:
+ Optimization has been made under the circumstances of Chinese networkThe vagrant/ansible will do three thinges:
 
 1. Setup a k8s cluster with 1 master and 2 slaves.
 2. Setup a private docker image on k8s master.
@@ -20,7 +20,7 @@ kubectl get node -o wide
 
 ## Depoly a services
 
-We have a docker registry running on `k8s-master` as `192.168.50.10:5000`, so you can create a development by push a docker repo to out private docker registry first.
+We have a docker registry running on `k8s-master` as `192.168.50.10:5000`, so you can create a development by push a docker repo to our private docker registry first.
 
 ## Control with `kubectl` from your host machine
 
