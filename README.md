@@ -61,7 +61,23 @@ export CONSUL_HTTP_ADDR="http://localhost:30000"
 consul members
 ```
 
-## Install ingress
+## Test with ping/pong services
+
+```
+#cd samples/pong
+docker build . -t 192.168.50.10:5000/pong:v1
+docker push 192.168.50.10:5000/pong:v1
+kubectl apply -f depolyment.yml
+#cd samples/ping
+docker build . -t 192.168.50.10:5000/ping:v1
+docker push 192.168.50.10:5000/pong:v1
+kubectl apply -f depolyment.yml
+
+```
+
+And measure how it works on your consul dashboard
+
+## (OPTIONAL) Install ingress
 
 ```
 kubectl apply -f ./components/ingress/ingress-nginx.yaml
