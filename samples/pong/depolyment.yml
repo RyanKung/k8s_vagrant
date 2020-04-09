@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong-deployment
+  labels:
+    app: pong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong
+  template:
+    metadata:
+      labels:
+        app: pong
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
+    spec:
+      containers:
+      - name: pong
+        image:  192.168.50.10:5000/pong:v1
+        ports:
+        - containerPort: 9090
+        env:
+        - name: "HOST"
+          value: "127.0.0.1"
+        - name: "PORT"
+          value: "9090"

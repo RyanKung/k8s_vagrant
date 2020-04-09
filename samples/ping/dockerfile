@@ -1,0 +1,9 @@
+FROM python
+
+WORKDIR /usr/src/app
+COPY . .
+RUN pip install -r ./requirement.txt -i https://pypi.doubanio.com/simple
+
+ENV HOST 0.0.0.0
+ENV PORT 5000
+ENTRYPOINT ["python", "-m", "ping"]

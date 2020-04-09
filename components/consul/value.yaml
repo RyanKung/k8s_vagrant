@@ -19,6 +19,5 @@ ui:
 
 connectInject:
   enabled: true
+  default: true
   imageEnvoy: envoyproxy/envoy:v1.13.1
-  storage: 1Gi
-  storageClass: local-storage
