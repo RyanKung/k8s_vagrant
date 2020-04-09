@@ -48,9 +48,17 @@ helm install consul v0.18.0 -f ./consul_src/consul_src.yml
 
 ```
 kubectl port-forward services/consul-consul-server 8500:8500
-export CONSUL_HTTP_ADDR="http://localhost:18500"
+export CONSUL_HTTP_ADDR="http://localhost:8500"
 consul members
 
+```
+
+4. (Optional) Expose cousul with `Ingress-nginx`:
+
+```
+kubectl apply -f ./components/consul/ingress.yaml
+export CONSUL_HTTP_ADDR="http://localhost:30000"
+consul members
 ```
 
 ## Install ingress
@@ -58,15 +66,12 @@ consul members
 ```
 kubectl apply -f ./components/ingress/ingress-nginx.yaml
 kubectl apply -f ./components/ingress/service-nodeport.yaml
-
 ```
 
-## Install MetalLIB
+Then check
 
 ```
-# ref https://metallb.universe.tf/installation/
-kubectl apply -f ./compoents/metallb/namespace.yaml
-kubectl apply -f ./compoents/metallb/metallb/metallb.yaml
-# On first install only
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl -n ingress-nginx get svc -o wide
 ```
+
+Thus you can visit your ingress with `http://<node ip>:30000`

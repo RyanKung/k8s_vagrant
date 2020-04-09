@@ -8,7 +8,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /consul
+      - path: /
         backend:
-          serviceName: consul-consul-server
-          servicePort: 8500
+          serviceName: consul-consul-ui
+          servicePort: 80
