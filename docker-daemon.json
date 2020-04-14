@@ -1,9 +1,10 @@
 {
   "registry-mirrors": [
-    "https://dockerhub.azk8s.cn",
-    "https://hub-mirror.c.163.com"
+    "https://1m7pz7cx.mirror.aliyuncs.com",
+    "https://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn"
   ],
   "insecure-registries": [
-	"192.168.50.10:5000"
-  ] 
+	"http://192.168.50.10:5000"
+  ]
 }
