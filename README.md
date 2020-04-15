@@ -61,6 +61,34 @@ export CONSUL_HTTP_ADDR="http://localhost:30000"
 consul members
 ```
 
+
+## Config Istio
+
+
+### Setup auto inject a namespace
+
+```
+kubectl label namespace default istio-injection=enabled
+```
+
+### Istio Ingress Gateway
+
+We will visit gateway via `nodeport`
+```
+export INGRESS_HOST=192.168.50.11
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+```
+
+### Kiali Dashboard
+
+Note that the default username/password is `admin/admin`
+```
+istioctl dashboard kiali
+```
+
+
 ## Test with ping/pong services
 
 ```
@@ -69,13 +97,13 @@ docker build . -t 192.168.50.10:5000/pong:v1
 docker push 192.168.50.10:5000/pong:v1
 kubectl apply -f depolyment.yml
 #cd samples/ping
+make
 docker build . -t 192.168.50.10:5000/ping:v1
 docker push 192.168.50.10:5000/pong:v1
 kubectl apply -f depolyment.yml
 
 ```
 
-And measure how it works on your consul dashboard
 
 ## (OPTIONAL) Install ingress
 
