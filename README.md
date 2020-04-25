@@ -27,7 +27,20 @@ We have a docker registry running on `k8s-master` as `192.168.50.10:5000`, so yo
 Simply copy `k8s-master:~/.kube/config` to your `~/.kube/config`.
 
 
-## Install Consul as mesh
+## Install Consul as services mesh
+
+Before depoly Consul, you need manually provide PVS for storage.
+
+related Issues:
+
+* pod has unbound immediate PVC https://github.com/hashicorp/consul-helm/issues/237
+
+* pvc issue https://github.com/hashicorp/consul-helm/issues/299
+
+* Predefined Persistent Volume Claims  https://www.consul.io/docs/platform/k8s/predefined-pvcs.html
+
+The format of PVC should fit: https://www.consul.io/docs/platform/k8s/predefined-pvcs.html
+
 
 1. Pre-create `PV` and `PVC` by (on host):
 ```
@@ -119,3 +132,11 @@ kubectl -n ingress-nginx get svc -o wide
 ```
 
 Thus you can visit your ingress with `http://<node ip>:30000`
+
+
+## Docs:
+
+
+Consul: Service Mesh Made Easy  https://www.hashicorp.com/products/consul/service-mesh/
+
+Consul vs. Istio https://www.consul.io/intro/vs/istio.html
